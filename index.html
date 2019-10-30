@@ -5,31 +5,33 @@
   </head>
 <body>
 
-<canvas id="animationCanvas" width="400" height="400">
+<canvas id="animationCanvas" width="1000" height="700">
 
 
 
 
 <script>
-var background = new Image();
-background.src = "hs-2014-27-a-print.0.0.jpg";
+let background = new Image();
+background.src = "space3.jpg";
 
 
-var x = 0, y = 200;
-var c = document.getElementById("animationCanvas");   
-var ctx = c.getContext("2d");
+let x = 0, y = 200;
+let c = document.getElementById("animationCanvas");
+let ctx = c.getContext("2d");
 ctx.fillStyle = "red";
 
 console.log(c.width, c.height);
 
-function draw() {
+//ecma 6 notation with fat arrow
+// draw is function name, () are arguments,
+const draw = () => {
   // clear the canvas
   ctx.clearRect(0, 0, c.width, c.height);
 
   // draw the background image
   ctx.drawImage(background, 0, 0);
-  
-  // start a new path;  
+
+  // start a new path;
   //  comment out begin and close path to see what happens
   ctx.beginPath();
 
@@ -38,11 +40,13 @@ function draw() {
   ctx.closePath();
 
   ctx.fill();
-  
-  // increment coord to "move" l to r
-  x += 1;
+
+  // increment coord to "move" l to right
+  // to move down you use y value
+  x += 5;
 
   // handle edge condition
+  // so far this only does center but we want edge
   if (x > c.width) {
     x -= c.width;
   }
