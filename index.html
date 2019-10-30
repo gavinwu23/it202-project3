@@ -49,14 +49,23 @@ const draw = () => {
 
   ctx.fill();
 
-
   // to move down you use y value
   // move right to left so subtract
   x = x - 5;
 
-  // handle edge condition
+  // handle edge condition for the border
   if (x < radiusCircle) {
     x = c.width;
+  }
+
+  // handle edge condition for the ball and the player
+  // using distance formula
+  // if it collides with playerball then reset it back to the right
+  let num1 = x-playerX;
+  let num2 = y-playerY;
+  let dist = Math.sqrt(num1*num1 + num2*num2);
+  if (dist < radiusCircle * 2) {
+      x = c.width;
   }
 
   // move the player
