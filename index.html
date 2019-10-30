@@ -16,14 +16,19 @@ background.src = "space3.jpg";
 
 let c = document.getElementById("animationCanvas");
 let ctx = c.getContext("2d");
-ctx.fillStyle = "red";
 
 // coordinates of circle that moves automatically
 let x = c.width, y = 200;
 
+// coordinates of own player!
+let playerX = 30, playerY = 200;
+
+// radius of the ball
+let radiusCircle = 25;
+
 // print out canvas height and width
 console.log(c.width, c.height);
-
+//======================================================================================
 //ecma 6 notation with fat arrow
 // draw is function name, () are arguments,
 const draw = () => {
@@ -38,7 +43,8 @@ const draw = () => {
   ctx.beginPath();
 
   //  a circle at the coordinates
-  ctx.arc(x, y, 25, 0, Math.PI * 2);
+  ctx.arc(x, y, radiusCircle, 0, Math.PI * 2);
+  ctx.fillStyle = "red";
   ctx.closePath();
 
   ctx.fill();
@@ -49,15 +55,68 @@ const draw = () => {
   x = x - 5;
 
   // handle edge condition
-  // so far this only does center but we want edge
-  if (x < 0) {
+  if (x < radiusCircle) {
     x = c.width;
   }
+
+  // move the player
+  playerBall();
 
   // call again when available
   window.requestAnimationFrame(draw);
 }
 
+//================================================================================================
+// event listener for keyboard to move the ball
+window.addEventListener("keydown",moveSomething, false);
+
+// DOES NOT WORK
+// function to put inside event listener
+// ecma6? it doesnt work so i use the one underneath
+const moveTheBall = (e) => {
+    switch(e.keyCode) {
+        case 38: // up
+            playerY = playerY  - 5;
+            break;
+
+        case 40: // down
+            playerY = playerY+5;
+            break;
+    }
+    e.preventDefault();
+}
+
+// same as above but in regular js, still need to figure out how to do eca6 style notation
+function moveSomething(e) {
+    switch(e.keyCode) {
+        case 38: // up
+            playerY  = playerY  - 10;
+            // edge detection to not go off the map
+            if (playerY < radiusCircle) {
+                playerY = radiusCircle;
+            }
+            break;
+
+        case 40: // down
+            playerY = playerY+10;
+            // edge detection to not go off map
+            if (playerY > c.height - radiusCircle) {
+                playerY = c.height - radiusCircle;
+            }
+            break;
+    }
+    e.preventDefault();
+}
+
+// function to draw my ball and move it however i want
+const playerBall = () => {
+    ctx.beginPath();
+    ctx.arc(playerX, playerY, radiusCircle,0,Math.PI*2);
+    ctx.fillStyle = "#FFD700";
+    ctx.closePath();
+    ctx.fill();
+}
+//=====================================================================================================
 
 // kick it off
 window.requestAnimationFrame(draw);
