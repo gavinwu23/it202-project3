@@ -8,18 +8,20 @@
 <canvas id="animationCanvas" width="1000" height="700">
 
 
-
-
 <script>
+
+// set the bacgkround
 let background = new Image();
 background.src = "space3.jpg";
 
-
-let x = 0, y = 200;
 let c = document.getElementById("animationCanvas");
 let ctx = c.getContext("2d");
 ctx.fillStyle = "red";
 
+// coordinates of circle that moves automatically
+let x = c.width, y = 200;
+
+// print out canvas height and width
 console.log(c.width, c.height);
 
 //ecma 6 notation with fat arrow
@@ -41,14 +43,15 @@ const draw = () => {
 
   ctx.fill();
 
-  // increment coord to "move" l to right
+
   // to move down you use y value
-  x += 5;
+  // move right to left so subtract
+  x = x - 5;
 
   // handle edge condition
   // so far this only does center but we want edge
-  if (x > c.width) {
-    x -= c.width;
+  if (x < 0) {
+    x = c.width;
   }
 
   // call again when available
