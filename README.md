@@ -13,5 +13,7 @@ move at different speeds.
 Player begins at level 1, and every 5 scores they get, they move on
 to the next level. When you move on to the next level, the speed of the
 balls go faster and faster as higher levels you get. You also only have
-3 lives.
+5 lives.
+
+updated:to 5 lives to make it more fun.
 
