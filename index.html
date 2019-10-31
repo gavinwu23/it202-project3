@@ -20,7 +20,7 @@ let c = document.getElementById("animationCanvas");
 let ctx = c.getContext("2d");
 
 // coordinates of circle that moves automatically
-let x = c.width, y =Math.round(Math.random() * 700);
+let x = c.width, y = Math.round(Math.random() * 700);
 
 // coordinates of own player!
 let playerX = 30, playerY = 200;
@@ -59,24 +59,32 @@ class circle {
         this.idk = idk;
         this.m = m;
         this.HoB = HoB;
+        this.speed = 10;
     }
 
     // move the circle
     drawC () {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); // draw the circle
-        ctx.fillStyle = "red";
+        if (this.HoB === 100) { // harm
+            ctx.fillStyle = "red";
+        }
+        else { // benefit
+            ctx.fillStyle = "green";
+        }
         ctx.closePath();
         ctx.fill();
     }
 
     // update x value, so it moves
     moveX ( ){
-        this.x = this.x - 5;
+        this.x = this.x - this.speed; // change speed of each different ball
+        //this.x = this.x - 10; // change speed of each different ball
         // handle edge condition for the border
         if (this.x < radiusCircle) {
           this.x = c.width;
           this.y =Math.round(Math.random() * 700); // random place at right
+          this.speed = Math.floor(Math.random() * 16) + 5;
         }
 
         // edge detection with player, distance formula
@@ -87,12 +95,11 @@ class circle {
         if (dist < radiusCircle * 2) {
             this.x = c.width;
             this.y =Math.round(Math.random() * 700); // random place at right
-
+            this.speed = Math.floor(Math.random() * 16) + 5;
             // if its harm we lose one life
             if (this.HoB === 100) {
                 numberOfLives = numberOfLives - 1;
             }
-
             // benefit so increase score
             else if (this.HoB === 200) {
                 score = score + 1;
@@ -100,11 +107,27 @@ class circle {
         } // outer if
     } // move method
 
+    // set the speed of the ball it goes so each have different speed
+    setSpeed( ) {
+        this.speed = Math.round(Math.random() * 20);
+    }
+
 } // class bracket
 
+let arrayOfCircles = []; // array of circle objects
 
+// lets push in 5 harm objects
+let i;
+for (i=0; i < 5; i++) {
+    let harm = new circle(x,Math.round(Math.random() * 700),radiusCircle,0,Math.PI*2,100);
+    arrayOfCircles.push(harm);
+}
 
-let hi = new circle(x,y,radiusCircle,0,Math.PI*2,200);
+// now 2 benefit objects
+for( i=0; i <2; i++) {
+    let bene = new circle(x,Math.round(Math.random() * 700),radiusCircle,0,Math.PI*2,200);
+    arrayOfCircles.push(bene);
+}
 
 //====================================================================================================
 //ecma 6 notation with fat arrow
@@ -118,8 +141,12 @@ const draw = () => {
   drawLives();
   drawScore();
   drawLevel();
-  hi.drawC(); // draw the auto ball
-  hi.moveX(); // move the auto ball (also does collision)
+  // hi.drawC(); // draw the auto ball
+  // hi.moveX(); // move the auto ball (also does collision)
+  for (i=0; i<arrayOfCircles.length; i++) {
+      arrayOfCircles[i].drawC();
+      arrayOfCircles[i].moveX();
+  }
 
   // move the player
   playerBall();
@@ -152,7 +179,7 @@ const moveTheBall = (e) => {
 function moveSomething(e) {
     switch(e.keyCode) {
         case 38: // up
-            playerY  = playerY  - 10;
+            playerY  = playerY  - 20;
             // edge detection to not go off the map
             if (playerY < radiusCircle) {
                 playerY = radiusCircle;
@@ -160,7 +187,7 @@ function moveSomething(e) {
             break;
 
         case 40: // down
-            playerY = playerY+10;
+            playerY = playerY+20;
             // edge detection to not go off map
             if (playerY > c.height - radiusCircle) {
                 playerY = c.height - radiusCircle;
