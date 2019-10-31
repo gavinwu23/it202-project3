@@ -7,3 +7,11 @@ as each level you go higher, the speed gets faster.
 
 Controls to play the game are up and down arrow keys only.
 
+The game begins with 2 benefits objects, and 5 harm objects and they all
+move at different speeds.
+
+Player begins at level 1, and every 5 scores they get, they move on
+to the next level. When you move on to the next level, the speed of the
+balls go faster and faster as higher levels you get. You also only have
+3 lives.
+
