@@ -9,6 +9,8 @@
 
 
 <script>
+//==============================================================================
+// global stuff
 
 // set the bacgkround
 let background = new Image();
@@ -26,8 +28,18 @@ let playerX = 30, playerY = 200;
 // radius of the ball
 let radiusCircle = 25;
 
+// number of lives
+let numberOfLives = 3;
+
+// score count
+let score = 0;
+
+// level
+let currentLevel = 1;
+
 // print out canvas height and width
 console.log(c.width, c.height);
+
 //======================================================================================
 //ecma 6 notation with fat arrow
 // draw is function name, () are arguments,
@@ -35,8 +47,11 @@ const draw = () => {
   // clear the canvas
   ctx.clearRect(0, 0, c.width, c.height);
 
-  // draw the background image
+  // draw the display
   ctx.drawImage(background, 0, 0);
+  drawLives();
+  drawScore();
+  drawLevel();
 
   // start a new path;
   //  comment out begin and close path to see what happens
@@ -128,7 +143,30 @@ const playerBall = () => {
     ctx.fill();
 }
 //=====================================================================================================
+// function to draw the number of lives on the screen
+const drawLives = () => {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "#FFD700";
+    ctx.fillText("Lives remaining: " + numberOfLives, 750, 670);
+}
 
+// function to draw the score
+const drawScore = () => {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "#FFD700";
+    ctx.fillText("Score: " + score, 400,50);
+}
+
+// function to draw the level
+const drawLevel = () => {
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Level: " + currentLevel, 850,50);
+}
+
+
+
+//========================================================================================================
 // kick it off
 window.requestAnimationFrame(draw);
 
