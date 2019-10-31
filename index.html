@@ -40,7 +40,62 @@ let currentLevel = 1;
 // print out canvas height and width
 console.log(c.width, c.height);
 
-//======================================================================================
+
+//===================================================================================================
+// class of circle of harm and enemy circle
+class circle {
+
+    // each circle will have x,y,radius, 0, mathpi, harm or benefit
+    // x->x
+    // y->y
+    // r->radius
+    // idk-> will be the 0 part
+    // m-> math.pi*2
+    // HoB-> 100 will be harm, 200 will be benefit
+    constructor(x,y,r,idk,m,HoB) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.idk = idk;
+        this.m = m;
+        this.HoB = HoB;
+    }
+
+    // move the circle
+    drawC () {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); // draw the circle
+        ctx.fillStyle = "red";
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    // update x value, so it moves
+    moveX ( ){
+        this.x = this.x - 5;
+        // handle edge condition for the border
+        if (this.x < radiusCircle) {
+          this.x = c.width;
+          this.y =Math.round(Math.random() * 700); // random place at right
+        }
+
+        // edge detection with player
+        let num1 = this.x-playerX;
+        let num2 = this.y-playerY;
+        let dist = Math.sqrt(num1*num1 + num2*num2);
+        if (dist < radiusCircle * 2) {
+            this.x = c.width;
+            this.y =Math.round(Math.random() * 700); // random place at right
+        }
+    }
+
+} // class bracket
+
+
+
+let hi = new circle(x,y,radiusCircle,0,Math.PI*2,100);
+
+//====================================================================================================
 //ecma 6 notation with fat arrow
 // draw is function name, () are arguments,
 const draw = () => {
@@ -52,38 +107,8 @@ const draw = () => {
   drawLives();
   drawScore();
   drawLevel();
-
-  // start a new path;
-  //  comment out begin and close path to see what happens
-  ctx.beginPath();
-
-  //  a circle at the coordinates
-  ctx.arc(x, y, radiusCircle, 0, Math.PI * 2);
-  ctx.fillStyle = "red";
-  ctx.closePath();
-
-  ctx.fill();
-
-  // to move down you use y value
-  // move right to left so subtract
-  x = x - 5;
-
-  // handle edge condition for the border
-  if (x < radiusCircle) {
-    x = c.width;
-    y =Math.round(Math.random() * 700); // random place at right
-  }
-
-  // handle edge condition for the ball and the player
-  // using distance formula
-  // if it collides with playerball then reset it back to the right
-  let num1 = x-playerX;
-  let num2 = y-playerY;
-  let dist = Math.sqrt(num1*num1 + num2*num2);
-  if (dist < radiusCircle * 2) {
-      x = c.width;
-      y =Math.round(Math.random() * 700); // random place at right
-  }
+  hi.drawC(); // draw the auto ball
+  hi.moveX(); // move the auto ball (also does collision)
 
   // move the player
   playerBall();
