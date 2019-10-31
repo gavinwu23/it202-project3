@@ -79,21 +79,32 @@ class circle {
           this.y =Math.round(Math.random() * 700); // random place at right
         }
 
-        // edge detection with player
+        // edge detection with player, distance formula
         let num1 = this.x-playerX;
         let num2 = this.y-playerY;
         let dist = Math.sqrt(num1*num1 + num2*num2);
+        // found collision
         if (dist < radiusCircle * 2) {
             this.x = c.width;
             this.y =Math.round(Math.random() * 700); // random place at right
-        }
-    }
+
+            // if its harm we lose one life
+            if (this.HoB === 100) {
+                numberOfLives = numberOfLives - 1;
+            }
+
+            // benefit so increase score
+            else if (this.HoB === 200) {
+                score = score + 1;
+            }
+        } // outer if
+    } // move method
 
 } // class bracket
 
 
 
-let hi = new circle(x,y,radiusCircle,0,Math.PI*2,100);
+let hi = new circle(x,y,radiusCircle,0,Math.PI*2,200);
 
 //====================================================================================================
 //ecma 6 notation with fat arrow
