@@ -156,6 +156,7 @@ const draw = () => {
 
   // cancel animation if player dies
   if (numberOfLives === 0) {
+      drawGameOver();
       return;
   }
 
@@ -233,6 +234,13 @@ const drawLevel = () => {
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
     ctx.fillText("Level: " + currentLevel, 850,50);
+}
+
+// game over screen when lives hit 0
+const drawGameOver = () => {
+    ctx.font = "70px Monaco";
+    ctx.fillStyle = "#00CED1";
+    ctx.fillText("GAME OVER", 300,350);
 }
 
 //========================================================================================================
