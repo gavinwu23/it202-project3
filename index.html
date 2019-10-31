@@ -12,6 +12,8 @@
 //==============================================================================
 // global stuff
 
+let globalID = undefined;
+
 // set the bacgkround
 let background = new Image();
 background.src = "space3.jpg";
@@ -133,16 +135,12 @@ for( i=0; i <2; i++) {
 //ecma 6 notation with fat arrow
 // draw is function name, () are arguments,
 const draw = () => {
+
   // clear the canvas
   ctx.clearRect(0, 0, c.width, c.height);
-
-  // draw the display
   ctx.drawImage(background, 0, 0);
-  drawLives();
-  drawScore();
-  drawLevel();
-  // hi.drawC(); // draw the auto ball
-  // hi.moveX(); // move the auto ball (also does collision)
+
+  // move all circles by itself
   for (i=0; i<arrayOfCircles.length; i++) {
       arrayOfCircles[i].drawC();
       arrayOfCircles[i].moveX();
@@ -150,6 +148,16 @@ const draw = () => {
 
   // move the player
   playerBall();
+
+  // draw the display
+  drawLives();
+  drawScore();
+  drawLevel();
+
+  // cancel animation if player dies
+  if (numberOfLives === 0) {
+      return;
+  }
 
   // call again when available
   window.requestAnimationFrame(draw);
@@ -226,8 +234,6 @@ const drawLevel = () => {
     ctx.fillStyle = "white";
     ctx.fillText("Level: " + currentLevel, 850,50);
 }
-
-
 
 //========================================================================================================
 // kick it off
