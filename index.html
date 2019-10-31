@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Canvas Animation</title>
+  <title>Simple scrolling game</title>
   </head>
 <body>
 
@@ -38,6 +38,9 @@ let score = 0;
 
 // level
 let currentLevel = 1;
+
+// boolean to keep track if we can level up validly
+let canLevel = true;
 
 // print out canvas height and width
 console.log(c.width, c.height);
@@ -87,6 +90,7 @@ class circle {
           this.x = c.width;
           this.y =Math.round(Math.random() * 700); // random place at right
           this.speed = Math.floor(Math.random() * 16) + 5;
+          //this.speed = Math.round(Math.random() * 5);
         }
 
         // edge detection with player, distance formula
@@ -98,12 +102,14 @@ class circle {
             this.x = c.width;
             this.y =Math.round(Math.random() * 700); // random place at right
             this.speed = Math.floor(Math.random() * 16) + 5;
+            //this.speed = Math.round(Math.random() * 5);
             // if its harm we lose one life
             if (this.HoB === 100) {
                 numberOfLives = numberOfLives - 1;
             }
             // benefit so increase score
             else if (this.HoB === 200) {
+                canLevel = true; // we can level up again now
                 score = score + 1;
             }
         } // outer if
@@ -113,6 +119,8 @@ class circle {
     setSpeed( ) {
         this.speed = Math.round(Math.random() * 20);
     }
+
+    // level check to speed up the ball
 
 } // class bracket
 
@@ -233,6 +241,7 @@ const drawScore = () => {
 const drawLevel = () => {
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
+    levelInc(); // check if we gained a level
     ctx.fillText("Level: " + currentLevel, 850,50);
 }
 
@@ -244,6 +253,17 @@ const drawGameOver = () => {
 }
 
 //========================================================================================================
+// function to update the level when score is by 5,10,15,etc
+// i used the boolean canLevel to avoid multiple rapid increase of level so it only levels up once when drawing it
+const levelInc = () => {
+    if (score != 0 && score % 5 ===0 && canLevel === true) {
+        currentLevel = currentLevel + 1;
+        canLevel = false; // dont level up anymore
+    }
+}
+
+
+//==========================================================================================================
 // kick it off
 window.requestAnimationFrame(draw);
 
