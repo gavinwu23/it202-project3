@@ -42,6 +42,9 @@ let currentLevel = 1;
 // boolean to keep track if we can level up validly
 let canLevel = true;
 
+// keep track on how fast the ball moves
+let ballSpeed;
+
 // print out canvas height and width
 console.log(c.width, c.height);
 
@@ -64,7 +67,7 @@ class circle {
         this.idk = idk;
         this.m = m;
         this.HoB = HoB;
-        this.speed = 10;
+        this.speed = Math.floor(Math.random() * 10) + 1;
     }
 
     // move the circle
@@ -89,8 +92,10 @@ class circle {
         if (this.x < radiusCircle) {
           this.x = c.width;
           this.y =Math.round(Math.random() * 700); // random place at right
-          this.speed = Math.floor(Math.random() * 16) + 5;
+          //this.speed = Math.floor(Math.random() * 16) + 5;
           //this.speed = Math.round(Math.random() * 5);
+          levelDiff(); // get a speed for each ball
+          this.speed = ballSpeed;
         }
 
         // edge detection with player, distance formula
@@ -101,7 +106,9 @@ class circle {
         if (dist < radiusCircle * 2) {
             this.x = c.width;
             this.y =Math.round(Math.random() * 700); // random place at right
-            this.speed = Math.floor(Math.random() * 16) + 5;
+            //this.speed = Math.floor(Math.random() * 16) + 5;
+            levelDiff(); // get speed for each ball
+            this.speed = ballSpeed;
             //this.speed = Math.round(Math.random() * 5);
             // if its harm we lose one life
             if (this.HoB === 100) {
@@ -262,6 +269,20 @@ const levelInc = () => {
     }
 }
 
+// function to increase the speed of the ball by level
+const levelDiff = () => {
+    // if level 1 then we go slow speeds
+    if (currentLevel === 1 ) {
+        ballSpeed = Math.floor(Math.random() * 10) + 1; // 1-10
+    }
+    else if (currentLevel === 2) {
+        ballSpeed = Math.floor(Math.random() * 16) + 5; // 5-20 speed
+    }
+    else {
+        ballSpeed = 30; // super fast
+    }
+
+}
 
 //==========================================================================================================
 // kick it off
